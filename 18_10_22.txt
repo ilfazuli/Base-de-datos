@@ -1,0 +1,57 @@
+select * from departments;
+
+-- Transacciones
+
+insert into departments values (280,'testing',null,null);
+insert into departments values (290,'desarrollo',null,null); 
+
+savepoint svp_2_inserts;        -- el savepoint como en los videojuegos es u punto de guardado.
+
+
+update departments set department_name = 'Pruebas' where department_id = 280; -- update es para actualizar alguna informacion.
+savepoint svp_1_update;
+
+delete from departments where department_id = 280;
+savepoint svp_2_delete;
+
+rollback to savepoint svp_2_inserts;
+rollback to savepoint svp_1_update; -- aqui hay un error si no ejecutas las lineas 9,10. Si las ejecutas pos no
+
+commit; -- Con este comando podemos agregar este cambio fisicamente en la base de datos.
+
+rollback; -- Aqui si el rollback esta sin parametros se devolvera al ultimo commit.
+
+
+
+-- insertar un empleado(a) / tabla employees.
+
+
+desc employees; -- Sirve para revisar las columnas de una table.
+select * from employees;
+insert into employees 
+values (400, 'Juan','Alvarez','JALVAREZ','954.854.585','08/08/02', 'AD_PRES','15000',null,null,60 );
+
+
+create table tabla1 
+    as select * from departments; -- ESTO SIRVE PARA COPIAR TABLAS YA EXISTENTES.
+delete from tabla1; -- este comando elimina todas las filas de la tabla al estar copiada de la de DEPARTMENTS.    
+
+
+create table tabla2 
+    as select * from departments;    
+delete from table2;
+
+insert all
+    into tabla1 (department_id, department_name, location_id, manager_id)
+         values (department_id, department_name, location_id, manager_id)
+    into tabla2 (department_id, department_name, location_id, manager_id)
+         values (department_id, department_name, location_id, manager_id)
+select * from departments;
+
+commit;
+
+--alter session disable parallel dml;   en caso de tener errores de tablas paralelas.
+
+select *from tabla1;
+
+
