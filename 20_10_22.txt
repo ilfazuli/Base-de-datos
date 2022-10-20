@@ -1,0 +1,51 @@
+select * from departments;
+
+-- Update
+rollback;
+update departments
+set department_name = 'Tecnologias de la informacion'
+
+rollback;
+desc departments;
+
+update departments
+set department_name = 'Tecnologias'
+where department_id = 60;
+
+-- no utilizar claves foraneas en el set
+select * from employees;
+
+update employees set department_id = 60 
+where employee_id = 119;
+
+commit;
+
+-- DELETE
+
+delete from departmetns
+where department_id = 130;
+
+
+create table cargos 
+as select * from jobs;
+
+
+select * from cargos;
+
+-- Forma 1
+delete from cargos;
+
+-- forma 2
+truncate table cargos;
+
+
+-- truco para rellenar tabla sin tener que usar drop, para poblar tabla existente.
+
+insert into cargos 
+select * from jobs;
+
+
+-- contenidos de la prueba: group by, having, joins, subconsultas, 1 operador set y crear tablas con subconsultas.
+
+
+
