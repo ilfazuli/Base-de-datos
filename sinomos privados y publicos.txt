@@ -1,0 +1,31 @@
+create view ww_reporte_paises as
+select dep.department_name, loc.city, cou.country_name
+from departments dep
+join locations loc on dep.location_id = loc.location_id
+join countries cou on loc.country_id = cou.country_id
+join regions reg  on cou.region_id = reg.region_id
+where reg.region_id=1;
+
+select * from ww_reporte_paises;
+
+
+
+-- SINONIMOS
+
+create synonym syn_paises
+for countries;
+
+select * from syn_paises;
+
+
+create or replace public synonym syn_empleados
+for employees;
+
+select * from syn_empleados;
+
+grant select on employees to Andrea; -- desde admin se le dan los privilegios.
+
+drop public synonym syn_empleados; -- asi se borran los synonym.
+
+
+
