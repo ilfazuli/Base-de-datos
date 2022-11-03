@@ -1,0 +1,50 @@
+-- Admin
+
+-- Privilegios de sistema.
+grant create table, create session to Cuenta1;
+
+-- Provilegios a nivel de objeto
+
+grant select, update
+on hr.employees
+to CUENTA1;
+
+
+-- Crear rol
+create role rol_basico;
+
+-- asignar privilegios al rol
+grant create session, create table 
+to rol_basico;
+
+-- asignar el rol a una cuenta
+grant rol_basico to cuenta2;
+
+-- revisar los roles asignados
+select * from user_role_privs;
+
+
+-- Quitar privilegios a cuenta2
+
+revoke create session from rol_basico;
+
+
+-- CUenta 1
+
+create table productos(
+    codigo number(10) primary key,
+    descripcion varchar2(20) not null,
+    precio number(10) not null
+);
+
+create view vw_producto_sobre_100000
+    as select * from productos where precio > 100000;
+
+
+select * from HR.employees;
+
+update HR.employees set first_namººe = 'Juanito' where employee_id = 102;
+
+
+password para cuenta1 y cuenta2
+D12345678912a
