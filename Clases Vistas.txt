@@ -1,0 +1,56 @@
+-----------------------------------------------------------------------------------------------------
+--VISTAS
+---CONSTRUIR VISTA
+--(LA VISTA HACE REFERENCIA A LA TABLA, SE BASA EN LA TABLA ORIGINAL)
+CREATE VIEW view_paises
+ as SELECT * FROM COUNTRIES;
+
+ --llamar vista (Creo que simple)
+ select * from view_paises WHERE region_id = 2;
+
+ insert into view_paises values ('CL','CHILE',2);
+
+ --Borrar vista
+ DROP VIEW view_paises;
+ -----------------------------------------------------
+ --OR REPLACE para poder cambiar LA SELECT
+ CREATE or REPLACE VIEW view_paises
+ as SELECT * FROM COUNTRIES where region_id = 2;
+
+ select * from view_paises where country_id in ('BR','AR','CL');
+
+
+ CREATE OR REPLACE VIEW v_dept_sum (nombre_depto, minsal, maxsal, avgsal)
+AS SELECT d.department_name, MIN(e.salary), MAX(e.salary), ROUND(AVG(e.salary))
+        FROM employees e 
+        JOIN departments d ON (e.department_id = d.department_id)
+        GROUP BY d.department_name;
+
+SELECT * FROM v_dept_sum;
+
+--LAS VISTAS SE PUEDEN RESTRINGIR, ESTO ES PARA QUE LA LOGICA DE LA VISTA SEA RESPETADA
+
+CREATE OR REPLACE VIEW v_dept30
+AS SELECT *
+    FROM employees
+    WHERE department_id=30
+    WITH CHECK OPTION CONSTRAINT control_v_dept30; -- protege la vista pero solo en el department_id = 30
+
+update v_dept30 set department_id = 10 where employee_id = 115; -- NO DEJA porque se pasa a llevar el department_id (restriccion)
+update v_dept30 set first_name = 'Alex' where employee_id = 115; --SI DEJA 
+
+select * from v_dept30;
+
+--WITH READ ONLY, LA VISTA SOLO SE PUEDE LEER , NO SE PUEDE MODIFICAR POR DML NI NA
+
+CREATE OR REPLACE VIEW v_dept30
+AS SELECT *
+    FROM employees
+    WHERE department_id=30
+    with read only;
+
+select * from v_dept30;
+
+DELETE FROM v_dept30 where employee_id = 115;
+
+----------------------------------------------------------------------------------------------------------------
