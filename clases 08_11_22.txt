@@ -1,0 +1,72 @@
+-- ADMIN
+-- Ejemplo crear usuario
+create user DIEGO
+identified by "1234567Abcdef*"
+DEFAULT TABLESPACE "Data"
+TEMPORARY TABLESPACE "temp"
+quota unlimited on "data";
+grant create session to Diego;
+grant RESOURCE to Diego;
+alter user Diego Default role "RESOURCE";
+
+
+-- Crear perfil
+
+create profile PROFILE_PRUEBA limit 
+CONNECT_TIME 1
+FAILED_LOGIN_ATTEMPTS 3
+PASSWORD_LOCK_TIME 1;
+
+
+alter user DIEGO 
+profile PROFILE_PRUEBA;
+
+-- DESBLOQUEAR CUENTA BLOQUEADA POR ERROR EN INICIO DE SESION
+
+alter user diego
+account unlock;
+
+alter user DIEGO
+identified by "abcdef1234567*"
+quota 2m on data;
+
+alter profile PROFILE_PRUEBA LIMIT
+PASSWORD_LOCK_TIME 1/2; -- aqui puede aceptar decimales, fracciones y numeros enteros
+
+
+drop user des_sist CASCADE; esto sirve para eliminar todo lo realacionado a esta cuenta y evitar problemas de cascada despues.
+
+-- ELIMINAR CUENTA
+drop user Diego;
+
+
+-- ELIMINAR PERFIL
+
+drop profile profile_prueba; 
+
+
+
+
+-- ACTIVIDAD A REALIZAR 3.3.3
+
+create user MDY2131_P13_1
+identified by "1234567Abcdef*"
+DEFAULT TABLESPACE "Data"
+TEMPORARY TABLESPACE "temp"
+quota unlimited on "data";
+grant create session to MDY2131_P13_1;
+grant create user to MDY2131_P13_1;
+grant RESOURCE to MDY2131_P13_1;
+alter user MDY2131_P13_1 Default role "RESOURCE";
+
+
+
+
+
+
+
+
+
+
+
+
