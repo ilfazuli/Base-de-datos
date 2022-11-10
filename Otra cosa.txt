@@ -1,0 +1,60 @@
+ACTIVIDAD 3.3.3
+
+-- ADMIN
+
+create user MDY2131_P13_1
+IDENTIFIED BY "TRABAJO_333a"
+DEFAULT TABLESPACE "Data"
+TEMPORARY TABLESPACE "temp"
+quota unlimited on "data";
+grant drop any table to MDY2131_P13_1;
+grant create session to MDY2131_P13_1;
+grant RESOURCE to MDY2131_P13_1;
+grant CREATE SEQUENCE to MDY2131_P13_1;
+grant drop any sequence to MDY2131_P13_1;
+grant create user to MDY2131_P13_1;
+grant create table to MDY2131_P13_1;
+alter user MDY2131_P13_1 Default role "RESOURCE";
+
+create profile MDY2131_P13_1 limit 
+CONNECT_TIME unlimited
+FAILED_LOGIN_ATTEMPTS 2
+PASSWORD_LOCK_TIME 120;
+
+
+alter user MDY2131_P13_1 profile MDY2131_P13_1;
+
+alter user MDY2131_P13_1 account unlock;
+
+
+
+
+-- USUARIO MDY2131_P13_1 
+
+create user MDY2131_P13_2 
+IDENTIFIED by "TRABAJO_333b"
+DEFAULT TABLESPACE "Data"
+TEMPORARY TABLESPACE "temp"
+quota unlimited on "data";
+
+
+create role desa_sib;
+grant select on CREDITO_CLIENTE to desa_sib;
+grant select on PRODUCTO_INVERSION_CLIENTE to desa_sib;
+grant select on CUOTA_CREDITO_CLIENTE to desa_sib;
+grant create view to role desa_sib;
+grant create trigger to role desa_sib;
+grant create procedure to role desa_sib;
+grant create table to role desa_sib;
+grant update(CREDITO_CLIENTE,PRODUCTO_INVERSION_CLIENTE,CUOTA_CREDITO_CLIENTE)
+on CREDITO_CLIENTE
+TO desa_sib;
+
+
+
+
+
+
+
+
+
