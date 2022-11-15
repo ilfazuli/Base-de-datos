@@ -1,0 +1,62 @@
+select * from employees;
+select first_name, last_name from employees;
+
+explain plan for 
+    select first_name, last_name from employees;
+    --select * from employees;
+    
+    
+select * from table(dbms_xplan.display);
+
+alter session disable parallel query;
+
+
+--ÍNDICES 
+
+
+create table empleados 
+    as select * from employees;
+    
+    
+select first_name, last_name, salary 
+from empleados where first_name = 'David';
+
+select first_name, last_name, salary 
+from empleados where salary > 8000 and first_name = 'Peter';
+
+select first_name, last_name, salary 
+from empleados where length(last_name) = 5 ;
+
+select first_name, last_name, salary, email 
+from empleados where email = 'SSTILES';
+
+
+explain plan for 
+    select first_name, last_name, salary, email 
+    from empleados where email = 'SSTILES';
+    --select first_name, last_name, salary 
+    --from empleados where salary > 8000 and first_name = 'Peter';
+    --select first_name, last_name, salary 
+    --from empleados where first_name = 'Peter';
+    --select first_name, last_name, salary 
+    --from empleados where length(last_name) = 5 ;
+
+select * from table(dbms_xplan.display);
+
+
+-- Creación de índices
+
+create index emp_first_name_ix on empleados(first_name);
+create index emp_first_name_salary_ix on empleados(first_name,salary);
+create index emp_last_name_length_ix on empleados(length(last_name));
+create unique index emp_email_ix_uq on empleados(email);
+drop index emp_first_name_ix;
+
+
+
+
+
+
+
+
+
